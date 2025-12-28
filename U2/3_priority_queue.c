@@ -1,21 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define N 4
+#define MAX 4
 typedef struct 
 {
     int pid;
     int pr;
 } job;
-job pjob[N];
+job arr[MAX];
 int front = -1;
 int rear = -1;
 
 void enqueue()
 {
     int pid, pr;
-    if (rear == N - 1)
+    if (rear == MAX - 1)
         printf("Queue Overflow\n");
-    else {
+    else 
+    {
         printf("Enter the process id and its priority: ");
         scanf("%d%d", &pid, &pr);
         if (rear == -1)
@@ -27,8 +28,8 @@ void enqueue()
         {
             rear++;
         }
-        pjob[rear].pid = pid;
-        pjob[rear].pr = pr;
+        arr[rear].pid = pid;
+        arr[rear].pr = pr;
     }
 }
 
@@ -50,16 +51,16 @@ void dequeue()
         {
             for(i=front;i<=rear;i++)
             {
-                if(pjob[i].pr>max)
+                if(arr[i].pr>max)
                 {
-                    max=pjob[i].pr;
+                    max=arr[i].pr;
                     pos=i;
                 }
             }
             for(i=pos;i<rear;i++)
             {
-                pjob[i].pid=pjob[i+1].pid;
-                pjob[i].pr=pjob[i+1].pr;
+                arr[i].pid=arr[i+1].pid;
+                arr[i].pr=arr[i+1].pr;
             }
             rear--;
         }
@@ -76,7 +77,7 @@ void display()
     {
         for (int i=front; i <= rear; i++)
         {
-            printf("Process id: %d Priority: %d\n", pjob[i].pid, pjob[i].pr);
+            printf("Process id: %d Priority: %d\n", arr[i].pid, arr[i].pr);
         }
     } 
 }
