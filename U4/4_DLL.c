@@ -3,34 +3,33 @@
 #include <string.h>
 
 // 1. Structure Definition
-struct Node {
+typedef struct student 
+{
     int eno;            // Employee number (as per notes)
     char name[30];
-    struct Node *next;  // Pointer to next node
-    struct Node *prev;  // Pointer to previous node
-};
-
-typedef struct Node NODE;
+    struct student *next;  // Pointer to next node
+    struct student *prev;  // Pointer to previous node
+}NODE;
 
 // 2. Memory Allocation (getnode)
 NODE* getnode() 
 {
-    NODE *temp;
-    temp = (NODE*) malloc(sizeof(NODE));
+    NODE *x;
+    x = (NODE*) malloc(sizeof(NODE));
     
-    if (temp == NULL) 
+    if (x == NULL) 
     {
         printf("Memory not allocated\n");
         return NULL;
     }
     
     printf("Enter the data (Eno, Name): ");
-    scanf("%d %s", &temp->eno, temp->name);
+    scanf("%d %s", &x->eno, x->name);
     
     // Initialize both links to NULL
-    temp->next = NULL;
-    temp->prev = NULL;
-    return temp;
+    x->next = NULL;
+    x->prev = NULL;
+    return x;
 }
 
 // 3. Insert Front

@@ -154,7 +154,7 @@ int main()
     
     printf("\n * Student Database * \n");
     
-    while (1)
+    do
     {
         printf("\n 1. Create/Insert Front \t 2. Display \t 3. Insert Rear");
         printf("\n 4. Delete Front \t 5. Delete Rear \t 6. Stack Demo \t 7. Exit");
@@ -176,6 +176,6 @@ int main()
             case 7: exit(0);
             default: printf("Enter valid choice \n");
         }
-    }
+    } while (ch != 7);
     return 0;
 }

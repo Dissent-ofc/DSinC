@@ -135,7 +135,7 @@ NODE* insert_rear(NODE *first)
 ## **4. delete_front() - Delete First Node**
 
 ```c
-NODE* delete_front(NODE *first) {
+NODE* delete_front(NODE *first) 
     NODE *cur;
     if (first == NULL) 
     {

@@ -46,9 +46,9 @@ NODE* insert_front(NODE *first)
         {
             cur = cur->link;
         }
-        cur->link = temp;    // Last node points to new node
-        temp->link = first;  // New node points to current first
-        first = temp;        // Update first pointer
+        cur->link = temp;    // Last node now points to the new node
+        temp->link = first;  // New node points to the old first node
+        first = temp;        // Update `first pointer` to point to the new node
     }
     return first;
 }
@@ -78,7 +78,8 @@ NODE* insert_rear(NODE *first)
 }
 
 // 4. Delete Front
-NODE* delete_front(NODE *first) {
+NODE* delete_front(NODE *first) 
+{
     NODE *cur;
     if (first == NULL) 
     {

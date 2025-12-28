@@ -1,0 +1,116 @@
+User: User: Go through the code block by block or line by line and explain what each part does. 
+
+GitHub Copilot: I'll explain this priority queue implementation block by block:
+
+## Header and Setup (Lines 1-8)
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#define N 4
+```
+- Includes standard I/O and stdlib libraries
+- Defines maximum queue size as 4
+
+```c
+typedef struct 
+{
+    int pid;
+    int pr;
+} job;
+```
+- Creates a structure called `job` to hold:
+  - `pid`: process ID
+  - `pr`: priority value
+
+```c
+job pjob[N];
+int front = -1;
+int rear = -1;
+```
+- `pjob[N]`: array to store 4 jobs
+- `front` and `rear`: both initialized to -1 (indicating empty queue)
+
+## Enqueue Function (Lines 11-33)
+```c
+if (rear == N - 1)
+    printf("Queue Overflow\n");
+```
+- Checks if queue is full (rear at last position)
+
+```c
+if (rear == -1)
+{
+    rear++;
+    front++;
+}
+else
+{
+    rear++;
+}
+```
+- If queue is empty, initializes both front and rear to 0
+- Otherwise, just increments rear
+
+```c
+pjob[rear].pid = pid;
+pjob[rear].pr = pr;
+```
+- Stores the new job at the rear position
+
+## Dequeue Function (Lines 35-63)
+```c
+int i,pos=0,max=0;
+```
+- `pos`: tracks position of highest priority job
+- `max`: stores highest priority value found
+
+```c
+for(i=front;i<=rear;i++)
+{
+    if(pjob[i].pr>max)
+    {
+        max=pjob[i].pr;
+        pos=i;
+    }
+}
+```
+- Scans through queue to find job with maximum priority
+- Records its position in `pos`
+
+```c
+for(i=pos;i<rear;i++)
+{
+    pjob[i].pid=pjob[i+1].pid;
+    pjob[i].pr=pjob[i+1].pr;
+}
+rear--;
+```
+- Shifts all elements after the dequeued position to the left
+- Decrements rear to reflect removal
+
+## Display Function (Lines 65-77)
+```c
+for (int i=front; i <= rear; i++)
+{
+    printf("Process id: %d Priority: %d\n", pjob[i].pid, pjob[i].pr);
+}
+```
+- Iterates from front to rear, printing each job's ID and priority
+
+## Main Function (Lines 79-100)
+```c
+do
+{
+    printf("1.Enqueue\n2.Dequeue\n3.Display\n4.Exit\n");
+    printf("Enter your choice: ");
+    scanf("%d", &ch);
+    switch (ch)
+    {
+        // ... cases
+    }
+} while (ch!=4);
+```
+- Displays menu in a loop until user chooses to exit (option 4)
+- Uses switch statement to call appropriate function based on user input
+
+**Key Concept**: This implements a priority queue where dequeue operations remove the element with the **highest priority value** (not FIFO order).
