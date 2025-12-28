@@ -1,0 +1,180 @@
+User: Go through the code block by block or line by line and explain what each part does. 
+
+GitHub Copilot: I'll explain this Stack using Circular Linked List implementation block by block:
+
+## **1. Headers and Structure Definition (Lines 1-8)**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+```
+- Standard I/O library for `printf`, `scanf`
+- Standard library for `malloc`, `free`
+
+```c
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* top = NULL;
+```
+- Defines a node structure with `data` (integer value) and `next` (pointer to next node)
+- `top` is a global pointer tracking the top of the stack (initialized to NULL)
+
+---
+
+## **2. Push Operation (Lines 10-35)**
+
+```c
+void push(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+```
+- Creates a new node dynamically and stores the value
+
+```c
+    if (top == NULL) 
+    {
+        newNode->next = newNode; // Points to itself
+        top = newNode;
+    }
+```
+- **Empty stack case**: New node points to itself (circular), becomes top
+
+```c
+    else {
+        struct Node* temp = top;
+        while (temp->next != top) 
+        {
+            temp = temp->next;
+        }
+```
+- Traverses to find the last node (one whose `next` points back to `top`)
+
+```c
+        newNode->next = top;    // New node points to current top
+        temp->next = newNode;   // Last node points to new node
+        top = newNode;          // Update top to the new node
+    }
+```
+- Inserts new node at the front: connects it to current top, updates last node's link, makes it the new top
+
+---
+
+## **3. Pop Operation (Lines 37-69)**
+
+```c
+void pop() {
+    if (top == NULL) 
+    {
+        printf("Stack Underflow\n");
+        return;
+    }
+```
+- Checks if stack is empty (underflow condition)
+
+```c
+    if (top->next == top) 
+    {
+        printf("Popped: %d\n", top->data);
+        free(top);
+        top = NULL;
+    }
+```
+- **Single node case**: Node points to itself, so delete it and set `top` to NULL
+
+```c
+    else {
+        struct Node* temp = top;
+        struct Node* last = top;
+        
+        while (last->next != top) 
+        {
+            last = last->next;
+        }
+```
+- Stores current top in `temp` (to be deleted)
+- Finds the last node in the circular list
+
+```c
+        top = top->next;              // Move top to the next node
+        last->next = top;             // Update last node to point to new top
+        
+        printf("Popped: %d\n", temp->data);
+        free(temp);
+    }
+```
+- Updates top to next node, reconnects last node to new top (maintaining circularity), frees old top
+
+---
+
+## **4. Display Operation (Lines 71-87)**
+
+```c
+void display() {
+    if (top == NULL) 
+    {
+        printf("Stack is Empty\n");
+        return;
+    }
+```
+- Checks if stack is empty
+
+```c
+    struct Node* temp = top;
+    printf("Stack Elements: \n");
+    
+    do {
+        printf("%d\n", temp->data);
+        temp = temp->next;
+    } while (temp != top);
+```
+- Uses `do-while` loop to traverse the circular list
+- Starts at `top`, prints each node's data, continues until it circles back to `top`
+
+---
+
+## **5. Main Function (Lines 89-115)**
+
+```c
+int main() {
+    int ch, item;
+    do
+    {
+        printf("\n1. Push\t 2. Pop\t 3. Display\t 4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &ch);
+```
+- Menu-driven interface with 4 options
+
+```c
+        switch (ch) {
+            case 1:
+                printf("Enter the item to push: ");
+                scanf("%d", &item);
+                push(item);
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    } while (ch != 4);
+}
+```
+- **Case 1**: Reads value and pushes onto stack
+- **Case 2**: Pops top element
+- **Case 3**: Displays all elements
+- **Case 4**: Exits program
+- **Default**: Invalid input handling
+- Loop continues until user chooses exit
+
+---
+
+**Key Concept**: In a circular linked list stack, the last node always points back to `top`, forming a circle. This eliminates the need for a NULL terminator but requires special handling to detect when you've traversed the entire list.

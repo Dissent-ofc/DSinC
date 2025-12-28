@@ -1,0 +1,234 @@
+User: Go through the code block by block or line by line and explain what each part does. 
+
+GitHub Copilot: I'll explain the Doubly Linked List code section by section:
+
+## **Header Files & Structure Definition**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+```
+- Standard libraries for input/output, memory allocation, and string operations
+
+```c
+struct Node {
+    int eno;            // Employee number
+    char name[30];
+    struct Node *next;  // Pointer to next node
+    struct Node *prev;  // Pointer to previous node
+};
+typedef struct Node NODE;
+```
+- Defines a doubly linked list node with data (employee number and name) and two pointers: `next` (points forward) and `prev` (points backward)
+- `typedef` creates an alias `NODE` for convenience
+
+## **Memory Allocation (getnode)**
+
+```c
+NODE* getnode() 
+{
+    NODE *temp;
+    temp = (NODE*) malloc(sizeof(NODE));
+```
+- Allocates memory for a new node dynamically
+
+```c
+    if (temp == NULL) 
+    {
+        printf("Memory not allocated\n");
+        return NULL;
+    }
+```
+- Checks if memory allocation failed
+
+```c
+    printf("Enter the data (Eno, Name): ");
+    scanf("%d %s", &temp->eno, temp->name);
+    temp->next = NULL;
+    temp->prev = NULL;
+```
+- Gets user input for employee data and initializes both link pointers to NULL
+
+## **Insert Front**
+
+```c
+NODE* insert_front(NODE *first) 
+{
+    NODE *temp;
+    temp = getnode();
+    
+    if (first == NULL) 
+    {
+        first = temp;  // Empty list: new node becomes first
+    } 
+    else 
+    {
+        temp->next = first; // New node points to current first
+        first->prev = temp; // Current first's prev points to new node
+        first = temp;       // Update first pointer
+    }
+    return first;
+}
+```
+- Inserts a new node at the beginning of the list
+- If list is empty, new node becomes the first node
+- Otherwise, establishes bidirectional links and updates the `first` pointer
+
+## **Insert Rear**
+
+```c
+NODE* insert_rear(NODE *first) 
+{
+    NODE *temp, *cur;
+    temp = getnode();
+    
+    if (first == NULL) 
+    {
+        first = temp;  // Empty list case
+    } 
+    else 
+    {
+        cur = first;
+        while (cur->next != NULL) {
+            cur = cur->next;  // Traverse to last node
+        }
+        cur->next = temp;   // Last node points to new node
+        temp->prev = cur;   // New node's prev points to last node
+    }
+    return first;
+}
+```
+- Inserts a new node at the end of the list
+- Traverses to the last node using `while` loop
+- Establishes bidirectional links between last node and new node
+
+## **Delete Front**
+
+```c
+NODE* delete_front(NODE *first) {
+    NODE *cur;
+    
+    if (first == NULL) 
+    {
+        printf("List is empty\n");
+        return NULL;
+    }
+    
+    cur = first;
+    first = first->next; // Move first pointer forward
+    
+    if (first != NULL) 
+    {
+        first->prev = NULL; // New first node's prev must be NULL
+    }
+    
+    free(cur);  // Free the deleted node
+    return first;
+}
+```
+- Removes the first node from the list
+- Checks for empty list
+- Updates `first` pointer and sets new first node's `prev` to NULL
+- Frees memory of deleted node
+
+## **Delete Rear**
+
+```c
+NODE* delete_rear(NODE *first) {
+    NODE *cur, *prev;
+    
+    if (first == NULL) 
+    {
+        printf("List is empty\n");
+        return NULL;
+    }
+    
+    if (first->next == NULL)  // Only one node
+    {
+        free(first);
+        return NULL;
+    } 
+    
+    // Multiple nodes: traverse to last
+    prev = NULL;
+    cur = first;
+    while (cur->next != NULL) 
+    {
+        prev = cur;
+        cur = cur->next;
+    }
+    
+    prev->next = NULL; // Disconnect the last node
+    free(cur);
+    return first;
+}
+```
+- Removes the last node from the list
+- Handles two cases: single node (return NULL) and multiple nodes (traverse to end)
+- Disconnects the last node and frees its memory
+
+## **Display**
+
+```c
+NODE* display(NODE *first) {
+    NODE *cur;
+    int count = 0;
+    
+    if (first == NULL) 
+    {
+        printf("List is empty\n");
+    } 
+    else 
+    {
+        cur = first;
+        printf("\nEMPLOYEE DATA:\n");
+        while (cur != NULL) {
+            printf("%d\t%s\n", cur->eno, cur->name);
+            count++;
+            cur = cur->next;
+        }
+        printf("No of nodes is %d\n", count);
+    }
+    return first;
+}
+```
+- Traverses and displays all nodes in the list
+- Counts and displays the total number of nodes
+- Uses forward traversal only (using `next` pointer)
+
+## **Main Function**
+
+```c
+int main() {
+    int ch;
+    NODE *first = NULL;  // Initialize empty list
+    
+    do
+    {
+        printf("\n1. Insert Front\n2. Insert Rear\n3. Delete Front\n4. Delete Rear\n5. Display\n6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &ch);
+        
+        switch(ch) {
+            case 1: first = insert_front(first); break;
+            case 2: first = insert_rear(first); break;
+            case 3: first = delete_front(first); break;
+            case 4: first = delete_rear(first); break;
+            case 5: display(first); break;
+            case 6: exit(0);
+            default: printf("Enter valid choice\n");
+        }
+    } while (ch != 6);
+}
+```
+- Menu-driven program with 6 options
+- Uses a do-while loop to repeatedly show menu until user exits
+- Each operation updates and returns the `first` pointer to maintain the list
+
+**Key DLL Features:**
+- Each node has both `next` and `prev` pointers for bidirectional traversal
+- Operations maintain both forward and backward links
+- More flexible than singly linked lists but uses extra memory for `prev` pointer
+
+Similar code found with 1 license type

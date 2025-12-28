@@ -1,0 +1,9 @@
+Act as an expert C developer and code reviewer. I need a clear explanation of the following code snippet.
+
+Context:This code is part of a Data structure in C. Its primary goal is to implement stack using array in C.
+
+**Explanation Request:**
+Please explain this code. Structure your explanation in the following way:
+1.  **High-Level Summary:** What is the overall purpose of this code in one or two sentences?
+2.  **Step-by-Step Breakdown:** Go through the code block by block or line by line and explain what each part does. Explain the *why* behind the logic, not just the *what*.
+3.  **Key Concepts:** Identify and explain any important programming concepts, libraries, or syntax used (e.g., 'async/await', 'Python list comprehensions', 'React Hooks').

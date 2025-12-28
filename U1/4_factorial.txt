@@ -1,0 +1,60 @@
+Dissent-ofc: Act as an expert C developer and code reviewer. I need a clear explanation of the following code snippet.
+
+Context:This code is part of a Data structure in C. Its primary goal is to find factorial of number in C.
+
+**Explanation Request:**
+Please explain this code. Structure your explanation in the following way:
+1.  **High-Level Summary:** What is the overall purpose of this code in one or two sentences?
+2.  **Step-by-Step Breakdown:** Go through the code block by block or line by line and explain what each part does. Explain the *why* behind the logic, not just the *what*.
+3.  **Key Concepts:** Identify and explain any important programming concepts, libraries, or syntax used (e.g., 'async/await', 'Python list comprehensions', 'React Hooks').
+
+GitHub Copilot: Of course. Here is an explanation of the provided C code.
+
+### 1. High-Level Summary
+
+This C program calculates the factorial of a non-negative integer provided by the user. It accomplishes this using a recursive function that calls itself to break the problem down into smaller, simpler steps.
+
+### 2. Step-by-Step Breakdown
+
+*   **`#include <stdio.h>`**
+    *   This line includes the standard input/output library. It's necessary because the code uses the `printf` function to display output to the user and the `scanf` function to read input from the user.
+
+*   **`int fact(int n)`**
+    *   This defines a function named `fact` that takes one integer argument, `n`, and is expected to return an integer result. This function contains the core logic for calculating the factorial.
+
+*   **`if (n == 0)`**
+    *   This is the **base case** for the recursion. The factorial of 0 is mathematically defined as 1. This condition checks if the input `n` has reached 0, which is the point where the recursion must stop.
+
+*   **`return 1;`**
+    *   If the base case (`n == 0`) is met, the function stops calling itself and returns the value 1. This is crucial to prevent an infinite loop of function calls.
+
+*   **`else return (n * fact(n - 1));`**
+    *   This is the **recursive step**. If `n` is not 0, the function returns the result of `n` multiplied by the factorial of `n-1`. It calls itself with a smaller value (`n-1`), progressively working its way down to the base case. For example, `fact(4)` becomes `4 * fact(3)`, which becomes `4 * 3 * fact(2)`, and so on, until it reaches `fact(0)`.
+
+*   **`int main()`**
+    *   This is the main function, which serves as the entry point for any C program. Execution begins here.
+
+*   **`int num;`**
+    *   This line declares an integer variable named `num` which will be used to store the number entered by the user.
+
+*   **`printf("Enter a number: ");`**
+    *   This displays a prompt on the screen, asking the user to enter a number.
+
+*   **`scanf("%d", &num);`**
+    *   This function reads an integer value from the user's keyboard input and stores it in the `num` variable. The `&` is the "address-of" operator, which gives the `scanf` function the memory location of `num` to write the value into.
+
+*   **`printf("Factorial of %d is %d\n", num, fact(num));`**
+    *   This line calculates and prints the final result. It calls the `fact` function with the user's number (`num`) and embeds the original number and the calculated factorial into the output string. The `\n` creates a new line after the output.
+
+*   **`return 0;`**
+    *   This statement ends the `main` function and returns a value of 0 to the operating system, indicating that the program executed successfully.
+
+### 3. Key Concepts
+
+*   **Recursion:** This is the primary concept demonstrated. Recursion is a programming technique where a function calls itself to solve a problem. A recursive solution must have two parts:
+    1.  **Base Case:** A condition that stops the recursion (e.g., `if (n == 0)`).
+    2.  **Recursive Step:** The part of the function that calls itself with a modified argument that moves it closer to the base case (e.g., `fact(n - 1)`).
+
+*   **Functions:** The code is structured using two functions: `main` and `fact`. This modular approach separates the logic for getting user input and displaying output (`main`) from the core calculation logic (`fact`), making the code cleaner and easier to understand.
+
+*   **Standard Input/Output (`stdio.h`):** This is a fundamental C library that provides functions for interacting with the user and the console. `printf` is used for formatted output (printing text and variables), and `scanf` is used for formatted input (reading data from the user).
